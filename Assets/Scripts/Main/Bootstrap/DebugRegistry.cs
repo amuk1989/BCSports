@@ -4,7 +4,7 @@ using Zenject;
 namespace Main.Bootstrap
 {
     [CreateAssetMenu(fileName = "DebugRegistry", menuName = "Registries/DebugRegistry")]
-    public class DebugRegistry: ScriptableObjectInstaller
+    public class DebugRegistry : ScriptableObjectInstaller
     {
         [SerializeField] private bool _isEnable;
 
@@ -12,11 +12,11 @@ namespace Main.Bootstrap
         {
             if (!_isEnable) return;
         }
-        
-        private void InstallDebugRegistry<TRegistry>(TRegistry registry) where TRegistry:ScriptableObject
+
+        private void InstallDebugRegistry<TRegistry>(TRegistry registry) where TRegistry : ScriptableObject
         {
             if (registry == null) return;
-            
+
             Container
                 .Bind<TRegistry>()
                 .FromInstance(registry);

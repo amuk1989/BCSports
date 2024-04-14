@@ -1,17 +1,25 @@
-﻿using Photon.Pun;
+﻿using System;
+using System.Collections.Generic;
+using Photon.Pun;
+using Photon.Realtime;
+using UniRx;
 
 namespace Network
 {
     internal class NetworkService : INetworkService
     {
-        private readonly NetworkLobbyService _networkLobbyService;
         private readonly NetworkConnectionService _networkConnectionService;
+        private readonly NetworkLobbyService _networkLobbyService;
 
-        private NetworkService(NetworkLobbyService networkLobbyService, NetworkConnectionService networkConnectionService)
+        private NetworkService(NetworkLobbyService networkLobbyService,
+            NetworkConnectionService networkConnectionService)
         {
             _networkLobbyService = networkLobbyService;
             _networkConnectionService = networkConnectionService;
         }
+
+        public IObservable<Unit> OnRoomListUpdated => _networkLobbyService.OnRoomsUpdated;
+        public IEnumerable<RoomInfo> Rooms => _networkLobbyService.Rooms;
 
         public void Initialize()
         {
@@ -26,12 +34,6 @@ namespace Network
         {
             PhotonNetwork.Disconnect();
             ReleaseCallBacks();
-        }
-
-        public void GetRoomList()
-        {
-            // PhotonNetwork.
-            // PhotonNetwork.GetCustomRoomList();
         }
 
         private void InitializeCallbacks()

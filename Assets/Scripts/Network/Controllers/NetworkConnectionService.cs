@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Base;
 using Photon.Pun;
 using Photon.Realtime;
@@ -15,27 +16,27 @@ namespace Network
 
         public void OnConnectedToMaster()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void OnDisconnected(DisconnectCause cause)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void OnRegionListReceived(RegionHandler regionHandler)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void OnCustomAuthenticationResponse(Dictionary<string, object> data)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void OnCustomAuthenticationFailed(string debugMessage)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Initialize()

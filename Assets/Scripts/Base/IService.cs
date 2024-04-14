@@ -5,6 +5,5 @@ namespace Base
 {
     public interface IService : IInitializable, IDisposable
     {
-        
     }
 }
