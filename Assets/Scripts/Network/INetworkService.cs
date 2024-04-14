@@ -11,8 +11,6 @@ namespace Network
         IObservable<Unit> OnRoomListUpdated { get; }
         IEnumerable<RoomInfo> Rooms { get; }
 
-        void CreateNewLobby()
-        {
-        }
+        void CreateNewLobby();
     }
 }

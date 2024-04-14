@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Photon.Pun;
 using Photon.Realtime;
 using UniRx;
@@ -34,6 +35,12 @@ namespace Network
         {
             PhotonNetwork.Disconnect();
             ReleaseCallBacks();
+        }
+
+        public void CreateNewLobby()
+        {
+            RoomOptions options = new RoomOptions {MaxPlayers = 4, PlayerTtl = 10000 };
+            PhotonNetwork.CreateRoom($"Lobby {DateTime.Now.ToString(CultureInfo.CurrentCulture)}", options);
         }
 
         private void InitializeCallbacks()

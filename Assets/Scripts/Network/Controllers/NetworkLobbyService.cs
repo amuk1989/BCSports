@@ -30,6 +30,7 @@ namespace Network
         {
             _roomList.Clear();
             _roomList.AllocFreeAddRange(roomList);
+            _onRoomCollectionUpdated.Execute();
         }
 
         public void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
