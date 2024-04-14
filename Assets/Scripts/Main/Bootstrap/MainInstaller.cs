@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using Network;
+using Zenject;
 
 namespace Main.Bootstrap
 {
@@ -6,6 +7,7 @@ namespace Main.Bootstrap
     {
         public override void InstallBindings()
         {
+            Container.Install<NetworkInstaller>();
         }
     }
 }
