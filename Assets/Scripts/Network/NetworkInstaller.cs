@@ -8,14 +8,6 @@ namespace Network
         public override void InstallBindings()
         {
             Container.InstallService<INetworkService, NetworkService>();
-            Container
-                .Bind<NetworkLobbyService>()
-                .AsSingle()
-                .Lazy();
-            Container
-                .Bind<NetworkConnectionService>()
-                .AsSingle()
-                .Lazy();
         }
     }
 }

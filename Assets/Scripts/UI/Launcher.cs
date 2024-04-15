@@ -50,7 +50,6 @@ namespace UI
 
         private void OnRoomsListUpdated()
         {
-            foreach (var roomInfo in _networkService.Rooms) _itemFactory.Create(roomInfo.Name, _lobbyItemsHandler);
         }
     }
 }
