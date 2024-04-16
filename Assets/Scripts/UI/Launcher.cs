@@ -35,21 +35,11 @@ namespace UI
                 .OnClickAsObservable()
                 .Subscribe(_ => _networkService.CreateNewLobby())
                 .AddTo(this);
-
-            _createLobby.enabled = false;
         }
 
         private void OnStartClick()
         {
-            _networkService.Initialize();
-            _createLobby.enabled = true;
-            _networkService.OnRoomListUpdated
-                .Subscribe(_ => OnRoomsListUpdated())
-                .AddTo(this);
-        }
-
-        private void OnRoomsListUpdated()
-        {
+            _networkService.ConnectToLobby();
         }
     }
 }

@@ -8,6 +8,11 @@ namespace Network
         public override void InstallBindings()
         {
             Container.InstallService<INetworkService, NetworkService>();
+
+            Container.Bind<BasicSpawner>()
+                .FromComponentInNewPrefabResource("Prefabs/BasicSpawner")
+                .AsSingle()
+                .Lazy();
         }
     }
 }

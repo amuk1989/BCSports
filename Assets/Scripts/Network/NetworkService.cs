@@ -1,33 +1,35 @@
 ﻿using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Fusion;
 using UniRx;
 
 namespace Network
 {
     internal class NetworkService : INetworkService
     {
+        private readonly BasicSpawner _basicSpawner;
 
-        public IObservable<Unit> OnRoomListUpdated => null;
-
+        public NetworkService(BasicSpawner basicSpawner)
+        {
+            _basicSpawner = basicSpawner;
+        }
         public void Initialize()
         {
-
         }
 
         public void Dispose()
         {
-
         }
 
         public void CreateNewLobby()
         {
-
+            _basicSpawner.TryStartGameAsync(GameMode.Host).Forget();
         }
 
-        private async UniTask InitializeAsync(CancellationToken cancellationToken)
+        public void ConnectToLobby()
         {
-            
+            _basicSpawner.TryStartGameAsync(GameMode.Client).Forget();
         }
     }
 }

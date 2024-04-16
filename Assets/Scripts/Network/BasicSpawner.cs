@@ -4,13 +4,14 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Fusion;
+using Fusion.Photon.Realtime;
 using Fusion.Sockets;
 
 namespace Network
 {
     public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
-        private NetworkRunner _runner;
+        [SerializeField] private NetworkRunner _runner;
         
         public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
         {
@@ -90,10 +91,9 @@ namespace Network
         {
         }
         
-        async UniTask StartGameAsync(GameMode mode)
+        public async UniTask<bool> TryStartGameAsync(GameMode mode)
         {
             // Create the Fusion runner and let it know that we will be providing user input
-            _runner = gameObject.AddComponent<NetworkRunner>();
             _runner.ProvideInput = true;
 
             // Create the NetworkSceneInfo from the current scene
@@ -104,13 +104,18 @@ namespace Network
             }
 
             // Start or join (depends on gamemode) a session with a specific name
-            await _runner.StartGame(new StartGameArgs()
+            var result = await _runner.StartGame(new StartGameArgs()
             {
                 GameMode = mode,
                 SessionName = "TestRoom",
                 Scene = scene,
+                MatchmakingMode = MatchmakingMode.FillRoom,
+                IsOpen = true,
+                IsVisible = true,
                 SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
             });
+            
+            return result.Ok;
         }
     }
 }
