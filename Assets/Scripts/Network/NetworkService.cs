@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UniRx;
 
 namespace Network
@@ -10,12 +12,12 @@ namespace Network
 
         public void Initialize()
         {
-            InitializeCallbacks();
+
         }
 
         public void Dispose()
         {
-            ReleaseCallBacks();
+
         }
 
         public void CreateNewLobby()
@@ -23,12 +25,9 @@ namespace Network
 
         }
 
-        private void InitializeCallbacks()
+        private async UniTask InitializeAsync(CancellationToken cancellationToken)
         {
-        }
-
-        private void ReleaseCallBacks()
-        {
+            
         }
     }
 }
