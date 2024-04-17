@@ -1,19 +1,25 @@
 ﻿using System;
-using Cysharp.Threading.Tasks;
 using GameStage.Interfaces;
+using Network;
 using UniRx;
-using UnityEngine;
+using View;
+using Object = UnityEngine.Object;
 
 namespace GameStage.Stages
 {
     public class GameStage : IGameStage
     {
-        public GameStage()
+        private readonly INetworkService _networkService;
+
+        public GameStage(INetworkService networkService)
         {
+            _networkService = networkService;
         }
 
-        public async void Execute()
+        public void Execute()
         {
+            var prefab = Object.FindObjectOfType<GunView>();
+            _networkService.CreateNewNetworkObject(prefab);
         }
 
         public void Complete()

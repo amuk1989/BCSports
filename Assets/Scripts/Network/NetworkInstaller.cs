@@ -13,6 +13,11 @@ namespace Network
                 .FromComponentInNewPrefabResource("Prefabs/BasicSpawner")
                 .AsSingle()
                 .Lazy();
+
+            Container
+                .Bind<NetworkObjectFactory>()
+                .AsSingle()
+                .Lazy();
         }
     }
 }

@@ -1,31 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using Fusion;
 using Fusion.Photon.Realtime;
 using Fusion.Sockets;
-using GameStage.Interfaces;
 using UniRx;
-using Zenject;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Network
 {
-    public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
+    internal class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         [SerializeField] private NetworkRunner _runner;
 
+        private PlayerRef _playerRef;
         private readonly ReactiveCommand _onConnected = new();
-        private IGameStageService _gameStageService;
-
-        [Inject]
-        private void Construct(IGameStageService gameStageService)
-        {
-            _gameStageService = gameStageService;
-        }
 
         public IObservable<Unit> OnConnectedAsRx => _onConnected.AsObservable();
+
+        public NetworkRunner NetworkRunner => _runner;
+        public PlayerRef PlayerRef => _playerRef;
 
         public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
         {
@@ -41,6 +36,7 @@ namespace Network
         {
             Debug.Log("OnPlayerJoined");
             _onConnected.Execute();
+            _playerRef = player;
         }
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -122,7 +118,7 @@ namespace Network
             if (scene.IsValid) sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
 
             // Start or join (depends on gamemode) a session with a specific name
-            var result = await _runner.StartGame(new StartGameArgs()
+            var result = await _runner.StartGame(new StartGameArgs
             {
                 GameMode = mode,
                 SessionName = "TestRoom",

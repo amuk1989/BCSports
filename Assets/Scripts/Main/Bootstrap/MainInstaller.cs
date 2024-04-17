@@ -1,5 +1,6 @@
 ﻿using GameStage.Bootstrap;
 using Network;
+using Rules;
 using UI.Bootstrap;
 using Zenject;
 
@@ -12,6 +13,7 @@ namespace Main.Bootstrap
             Container.Install<GameStageInstaller>();
             Container.Install<NetworkInstaller>();
             Container.Install<UIInstaller>();
+            Container.Install<RulesInstaller>();
         }
     }
 }
