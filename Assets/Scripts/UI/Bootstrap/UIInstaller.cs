@@ -8,9 +8,19 @@ namespace UI.Bootstrap
         public override void InstallBindings()
         {
             Container
-                .BindFactory<string, Transform, LobbyItem, LobbyItem.Factory>()
-                .FromMonoPoolableMemoryPool(x => x.WithInitialSize(10)
-                    .FromComponentInNewPrefabResource("Prefabs/LobbyItem"));
+                .Bind<UIComponent>()
+                .FromComponentInNewPrefabResource("Prefabs/MainCanvas")
+                .AsSingle()
+                .NonLazy();
+
+            Container
+                .BindFactory<string, Transform, BaseUI, BaseUI.Factory>()
+                .FromFactory<UIPrefabFactory>();
+
+            Container
+                .BindInterfacesTo<UIRule>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

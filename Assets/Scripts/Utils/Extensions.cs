@@ -1,4 +1,5 @@
 ﻿using Base;
+using Base.Interfaces;
 using Zenject;
 
 namespace Utils
@@ -14,6 +15,14 @@ namespace Utils
                 .To<TService>()
                 .AsSingle()
                 .NonLazy();
+        }
+
+        public static void InstallRegistry<TRegistry>(this DiContainer container, TRegistry registry)
+            where TRegistry : IConfigData
+        {
+            container
+                .Bind<TRegistry>()
+                .FromInstance(registry);
         }
     }
 }
