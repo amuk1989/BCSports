@@ -14,8 +14,12 @@ namespace Network
         {
             _basicSpawner = basicSpawner;
         }
+
+        public IObservable<Unit> OnConnected => _basicSpawner.OnConnectedAsRx;
+
         public void Initialize()
         {
+            
         }
 
         public void Dispose()

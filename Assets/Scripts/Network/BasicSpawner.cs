@@ -6,23 +6,41 @@ using UnityEngine.SceneManagement;
 using Fusion;
 using Fusion.Photon.Realtime;
 using Fusion.Sockets;
+using GameStage.Interfaces;
+using UniRx;
+using Zenject;
 
 namespace Network
 {
     public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     {
         [SerializeField] private NetworkRunner _runner;
-        
+
+        private readonly ReactiveCommand _onConnected = new();
+        private IGameStageService _gameStageService;
+
+        [Inject]
+        private void Construct(IGameStageService gameStageService)
+        {
+            _gameStageService = gameStageService;
+        }
+
+        public IObservable<Unit> OnConnectedAsRx => _onConnected.AsObservable();
+
         public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
         {
+            Debug.Log("OnObjectExitAOI");
         }
 
         public void OnObjectEnterAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
         {
+            Debug.Log("OnObjectEnterAOI");
         }
 
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
+            Debug.Log("OnPlayerJoined");
+            _onConnected.Execute();
         }
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -43,6 +61,7 @@ namespace Network
 
         public void OnConnectedToServer(NetworkRunner runner)
         {
+            Debug.Log("OnConnectedToServer");
         }
 
         public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
@@ -52,6 +71,7 @@ namespace Network
         public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request,
             byte[] token)
         {
+            Debug.Log("OnConnectRequest");
         }
 
         public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
@@ -90,7 +110,7 @@ namespace Network
         public void OnSceneLoadStart(NetworkRunner runner)
         {
         }
-        
+
         public async UniTask<bool> TryStartGameAsync(GameMode mode)
         {
             // Create the Fusion runner and let it know that we will be providing user input
@@ -99,9 +119,7 @@ namespace Network
             // Create the NetworkSceneInfo from the current scene
             var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
             var sceneInfo = new NetworkSceneInfo();
-            if (scene.IsValid) {
-                sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
-            }
+            if (scene.IsValid) sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
 
             // Start or join (depends on gamemode) a session with a specific name
             var result = await _runner.StartGame(new StartGameArgs()
@@ -114,7 +132,7 @@ namespace Network
                 IsVisible = true,
                 SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
             });
-            
+
             return result.Ok;
         }
     }
