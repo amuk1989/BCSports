@@ -1,4 +1,5 @@
 ﻿using GameStage.Controllers;
+using Gun;
 using UnityEngine;
 using Utils;
 using Zenject;
@@ -9,10 +10,12 @@ namespace Main.Bootstrap
     public class ConfigRegistry : ScriptableObjectInstaller
     {
         [SerializeField] private GameStageConfig _gameStageConfig;
+        [SerializeField] private GameConfig _gameConfig;
         
         public override void InstallBindings()
         {
             Container.InstallRegistry(_gameStageConfig.Data);
+            Container.InstallRegistry(_gameConfig.Data);
         }
     }
 }

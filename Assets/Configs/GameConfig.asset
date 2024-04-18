@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 743652ddfbd949c797332a2cec7070df, type: 3}
-  m_Name: ConfigRegistry
+  m_Script: {fileID: 11500000, guid: 8d5224c72dc04c44994c86eeac85654f, type: 3}
+  m_Name: GameConfig
   m_EditorClassIdentifier: 
-  _gameStageConfig: {fileID: 11400000, guid: 7f81dd87df6f68f4c88196c2a33288a4, type: 2}
-  _gameConfig: {fileID: 11400000, guid: e66576fb398c0b44a818b8eda38a685a, type: 2}
+  _data:
+    _gunView: {fileID: 1829050212240913157, guid: d3da3c20365c1ef44bd8fd8cbfd66cb6,
+      type: 3}

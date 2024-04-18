@@ -14,13 +14,12 @@ namespace Network
     {
         [SerializeField] private NetworkRunner _runner;
 
-        private PlayerRef _playerRef;
         private readonly ReactiveCommand _onConnected = new();
 
         public IObservable<Unit> OnConnectedAsRx => _onConnected.AsObservable();
 
         public NetworkRunner NetworkRunner => _runner;
-        public PlayerRef PlayerRef => _playerRef;
+        public PlayerRef PlayerRef { get; private set; }
 
         public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
         {
@@ -34,9 +33,10 @@ namespace Network
 
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
+            if (runner.IsServer) return;
             Debug.Log("OnPlayerJoined");
             _onConnected.Execute();
-            _playerRef = player;
+            PlayerRef = player;
         }
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
