@@ -118,14 +118,11 @@ namespace Network
             if (scene.IsValid) sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
 
             // Start or join (depends on gamemode) a session with a specific name
-            var result = await _runner.StartGame(new StartGameArgs
+            var result = await _runner.StartGame(new StartGameArgs()
             {
                 GameMode = mode,
                 SessionName = "TestRoom",
                 Scene = scene,
-                MatchmakingMode = MatchmakingMode.FillRoom,
-                IsOpen = true,
-                IsVisible = true,
                 SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
             });
 
