@@ -113,18 +113,23 @@ namespace Network
             _runner.ProvideInput = true;
 
             // Create the NetworkSceneInfo from the current scene
-            var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
-            var sceneInfo = new NetworkSceneInfo();
-            if (scene.IsValid) sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
-
-            // Start or join (depends on gamemode) a session with a specific name
-            var result = await _runner.StartGame(new StartGameArgs()
+            // var scene = SceneRef.FromIndex(SceneManager.GetActiveScene().buildIndex);
+            // var sceneInfo = new NetworkSceneInfo();
+            // if (scene.IsValid) sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
+            
+            var startGameArgs = new StartGameArgs()
             {
                 GameMode = mode,
-                SessionName = "TestRoom",
-                Scene = scene,
-                SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
-            });
+                SessionName = "TestRoom"
+            };
+
+            // Start or join (depends on gamemode) a session with a specific name
+            var result = await _runner.StartGame(startGameArgs);
+
+            if (_runner.IsServer)
+            {
+                _runner.LoadScene(SceneManager.GetActiveScene().name);
+            }
 
             return result.Ok;
         }

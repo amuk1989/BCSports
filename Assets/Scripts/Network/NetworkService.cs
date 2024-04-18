@@ -31,7 +31,7 @@ namespace Network
 
         public void CreateNewLobby()
         {
-            _basicSpawner.TryStartGameAsync(GameMode.Host).Forget();
+            _basicSpawner.TryStartGameAsync(GameMode.AutoHostOrClient).Forget();
         }
 
         public void ConnectToLobby()
