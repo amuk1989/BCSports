@@ -33,7 +33,7 @@ namespace Network
 
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
-            if (runner.IsServer) return;
+            if (!runner.IsServer) return;
             Debug.Log("OnPlayerJoined");
             _onConnected.Execute();
             PlayerRef = player;
