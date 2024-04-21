@@ -12,6 +12,7 @@ namespace GameStage.Stages
     {
         private readonly INetworkService _networkService;
         private readonly GameConfigData _gameConfig;
+        private readonly CompositeDisposable _compositeDisposable = new();
 
         public GameStage(INetworkService networkService, GameConfigData gameConfig)
         {
@@ -21,11 +22,23 @@ namespace GameStage.Stages
 
         public void Execute()
         {
-            _networkService.CreateNewNetworkObject(_gameConfig.GunView);
+            if (_networkService.IsHostGame)
+            {
+                _networkService.CreateNewNetworkObject(_gameConfig.GunView);
+
+                _networkService
+                    .OnConnected
+                    .Subscribe(_ =>
+                    {
+                        _networkService.CreateNewNetworkObject(_gameConfig.GunView);
+                    })
+                    .AddTo(_compositeDisposable);
+            }
         }
 
         public void Complete()
         {
+            _compositeDisposable?.Dispose();
         }
 
         public IObservable<Unit> StageCompletedAsRx()

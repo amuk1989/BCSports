@@ -33,7 +33,7 @@ namespace Network
 
         public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
         {
-            if (!runner.IsServer) return;
+            if (!_runner.IsServer) return;
             Debug.Log("OnPlayerJoined");
             _onConnected.Execute();
             PlayerRef = player;
@@ -112,7 +112,7 @@ namespace Network
         public async UniTask<bool> TryStartGameAsync(GameMode mode)
         {
             _runner.ProvideInput = true;
-            
+
             var startGameArgs = new StartGameArgs()
             {
                 GameMode = mode,
@@ -122,10 +122,7 @@ namespace Network
             // Start or join (depends on gamemode) a session with a specific name
             var result = await _runner.StartGame(startGameArgs);
 
-            if (_runner.IsServer)
-            {
-                _runner.LoadScene(SceneManager.GetActiveScene().name);
-            }
+            if (_runner.IsServer) _runner.LoadScene(SceneManager.GetActiveScene().name);
 
             return result.Ok;
         }
