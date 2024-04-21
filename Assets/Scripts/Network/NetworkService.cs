@@ -11,6 +11,7 @@ namespace Network
     {
         private readonly BasicSpawner _basicSpawner;
         private readonly NetworkObjectFactory _networkObjectFactory;
+        private readonly GameMode _gameMode;
 
         public NetworkService(BasicSpawner basicSpawner, NetworkObjectFactory networkObjectFactory)
         {
@@ -19,6 +20,8 @@ namespace Network
         }
 
         public IObservable<Unit> OnConnected => _basicSpawner.OnConnectedAsRx;
+
+        public bool IsHostGame => _gameMode == GameMode.Host;
 
         public void Initialize()
         {
@@ -31,7 +34,7 @@ namespace Network
 
         public void CreateNewLobby()
         {
-            _basicSpawner.TryStartGameAsync(GameMode.AutoHostOrClient).Forget();
+            _basicSpawner.TryStartGameAsync(GameMode.Host).Forget();
         }
 
         public void ConnectToLobby()
@@ -41,7 +44,10 @@ namespace Network
 
         public void CreateNewNetworkObject<TComponent>(TComponent prefab) where TComponent : MonoBehaviour
         {
-            _networkObjectFactory.Create(prefab, null, Vector3.zero);
+            if (IsHostGame)
+            {
+                _networkObjectFactory.Create(prefab, null, Vector3.zero);
+            }
         }
     }
 }

@@ -57,7 +57,9 @@ namespace Network
 
         public void OnConnectedToServer(NetworkRunner runner)
         {
+            if (runner.IsServer) return;
             Debug.Log("OnConnectedToServer");
+            _onConnected.Execute();
         }
 
         public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
