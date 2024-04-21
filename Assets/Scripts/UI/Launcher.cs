@@ -1,4 +1,5 @@
-﻿using Network;
+﻿using Cysharp.Threading.Tasks;
+using Network;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,12 +25,22 @@ namespace UI
         {
             _startButton
                 .OnClickAsObservable()
-                .Subscribe(_ => _networkService.ConnectToLobby())
+                .Subscribe(_ =>
+                {
+                    _networkService.ConnectToLobby().Forget();
+                    _startButton.interactable = false;
+                    _createLobby.interactable = false;
+                })
                 .AddTo(this);
 
             _createLobby
                 .OnClickAsObservable()
-                .Subscribe(_ => _networkService.CreateNewLobby())
+                .Subscribe(_ =>
+                {
+                    _networkService.CreateNewLobby().Forget();
+                    _startButton.interactable = false;
+                    _createLobby.interactable = false;
+                })
                 .AddTo(this);
         }
     }

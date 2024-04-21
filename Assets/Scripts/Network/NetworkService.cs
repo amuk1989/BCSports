@@ -11,7 +11,8 @@ namespace Network
     {
         private readonly BasicSpawner _basicSpawner;
         private readonly NetworkObjectFactory _networkObjectFactory;
-        private readonly GameMode _gameMode;
+
+        private GameMode _gameMode;
 
         public NetworkService(BasicSpawner basicSpawner, NetworkObjectFactory networkObjectFactory)
         {
@@ -25,29 +26,27 @@ namespace Network
 
         public void Initialize()
         {
-            
         }
 
         public void Dispose()
         {
         }
 
-        public void CreateNewLobby()
+        public async UniTask CreateNewLobby()
         {
-            _basicSpawner.TryStartGameAsync(GameMode.Host).Forget();
+            var connectResult = await _basicSpawner.TryStartGameAsync(GameMode.Host);
+            if (connectResult) _gameMode = GameMode.Host;
         }
 
-        public void ConnectToLobby()
+        public async UniTask ConnectToLobby()
         {
-            _basicSpawner.TryStartGameAsync(GameMode.Client).Forget();
+            var connectResult = await _basicSpawner.TryStartGameAsync(GameMode.Client);
+            if (connectResult) _gameMode = GameMode.Client;
         }
 
         public void CreateNewNetworkObject<TComponent>(TComponent prefab) where TComponent : MonoBehaviour
         {
-            if (IsHostGame)
-            {
-                _networkObjectFactory.Create(prefab, null, Vector3.zero);
-            }
+            if (IsHostGame) _networkObjectFactory.Create(prefab, null, Vector3.zero);
         }
     }
 }
