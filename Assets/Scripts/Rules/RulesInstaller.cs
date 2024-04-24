@@ -6,7 +6,10 @@ namespace Rules
     {
         public override void InstallBindings()
         {
-            
+            Container
+                .BindInterfacesTo<GunRule>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

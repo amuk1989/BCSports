@@ -3,17 +3,27 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Fusion;
 using UniRx;
+using UnityEngine;
 
 namespace Network
 {
     internal class NetworkService : INetworkService
     {
         private readonly BasicSpawner _basicSpawner;
+        private readonly NetworkObjectFactory _networkObjectFactory;
 
-        public NetworkService(BasicSpawner basicSpawner)
+        private GameMode _gameMode;
+
+        public NetworkService(BasicSpawner basicSpawner, NetworkObjectFactory networkObjectFactory)
         {
             _basicSpawner = basicSpawner;
+            _networkObjectFactory = networkObjectFactory;
         }
+
+        public IObservable<Unit> OnConnected => _basicSpawner.OnConnectedAsRx;
+
+        public bool IsHostGame => _gameMode == GameMode.Host;
+
         public void Initialize()
         {
         }
@@ -22,14 +32,21 @@ namespace Network
         {
         }
 
-        public void CreateNewLobby()
+        public async UniTask CreateNewLobby()
         {
-            _basicSpawner.TryStartGameAsync(GameMode.Host).Forget();
+            var connectResult = await _basicSpawner.TryStartGameAsync(GameMode.Host);
+            if (connectResult) _gameMode = GameMode.Host;
         }
 
-        public void ConnectToLobby()
+        public async UniTask ConnectToLobby()
         {
-            _basicSpawner.TryStartGameAsync(GameMode.Client).Forget();
+            var connectResult = await _basicSpawner.TryStartGameAsync(GameMode.Client);
+            if (connectResult) _gameMode = GameMode.Client;
+        }
+
+        public void CreateNewNetworkObject<TComponent>(TComponent prefab) where TComponent : MonoBehaviour
+        {
+            if (IsHostGame) _networkObjectFactory.Create(prefab, null, Vector3.zero);
         }
     }
 }

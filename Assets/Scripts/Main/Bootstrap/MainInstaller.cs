@@ -1,5 +1,8 @@
-﻿using Network;
+﻿using GameStage.Bootstrap;
+using Network;
+using Rules;
 using UI.Bootstrap;
+using Utils;
 using Zenject;
 
 namespace Main.Bootstrap
@@ -8,8 +11,10 @@ namespace Main.Bootstrap
     {
         public override void InstallBindings()
         {
+            Container.Install<GameStageInstaller>();
             Container.Install<NetworkInstaller>();
             Container.Install<UIInstaller>();
+            Container.Install<RulesInstaller>();
         }
     }
 }
