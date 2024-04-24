@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameStageConfig: {fileID: 11400000, guid: 7f81dd87df6f68f4c88196c2a33288a4, type: 2}
   _gameConfig: {fileID: 11400000, guid: e66576fb398c0b44a818b8eda38a685a, type: 2}
+  _inputConfig: {fileID: 11400000, guid: fc0894cf22666984dbaf1372b7f3f2c8, type: 2}

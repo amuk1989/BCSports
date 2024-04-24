@@ -1,12 +1,20 @@
-﻿using UnityEngine;
+﻿using Fusion;
+using Network.Data;
+using UnityEngine;
 using Zenject;
 
 namespace View
 {
-    public class GunView : MonoBehaviour
+    public class GunView : NetworkBehaviour
     {
-        public class Factory : PlaceholderFactory<Vector3, GunView>
+        [SerializeField] private NetworkCharacterController _cc;
+        
+        public override void FixedUpdateNetwork()
         {
+            if (GetInput(out NetworkInputData data))
+            {
+                Debug.Log(data.Direction);
+            }
         }
     }
 }

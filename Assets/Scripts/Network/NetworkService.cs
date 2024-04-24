@@ -2,6 +2,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Fusion;
+using Network.Data;
 using UniRx;
 using UnityEngine;
 
@@ -20,9 +21,11 @@ namespace Network
             _networkObjectFactory = networkObjectFactory;
         }
 
-        public IObservable<Unit> OnConnected => _basicSpawner.OnConnectedAsRx;
+        public IObservable<PlayerRef> OnConnected => _basicSpawner.OnConnectedAsRx;
 
         public bool IsHostGame => _gameMode == GameMode.Host;
+
+        public PlayerRef LocalPlayer => _basicSpawner.PlayerRef;
 
         public void Initialize()
         {
@@ -44,9 +47,14 @@ namespace Network
             if (connectResult) _gameMode = GameMode.Client;
         }
 
-        public void CreateNewNetworkObject<TComponent>(TComponent prefab) where TComponent : MonoBehaviour
+        public void CreateNewNetworkObject<TComponent>(TComponent prefab, PlayerRef playerRef) where TComponent : MonoBehaviour
         {
-            if (IsHostGame) _networkObjectFactory.Create(prefab, null, Vector3.zero);
+            if (IsHostGame) _networkObjectFactory.Create(prefab, null, Vector3.zero, playerRef);
+        }
+
+        public void SetNetworkInput(NetworkInputData networkInputData)
+        {
+            _basicSpawner.SetInputData(networkInputData);
         }
     }
 }

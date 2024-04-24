@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Fusion;
+using UnityEngine;
 using Zenject;
 
 namespace Network
@@ -12,11 +13,11 @@ namespace Network
             _basicSpawner = basicSpawner;
         }
 
-        public void Create<TComponent>(TComponent prefab, Transform parent, Vector3 position)
+        public void Create<TComponent>(TComponent prefab, Transform parent, Vector3 position, PlayerRef playerRef)
             where TComponent : MonoBehaviour
         {
             _basicSpawner.NetworkRunner.SpawnAsync(prefab.gameObject, position, Quaternion.identity,
-                _basicSpawner.PlayerRef);
+                playerRef);
         }
     }
 }

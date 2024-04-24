@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Fusion;
 using Fusion.Photon.Realtime;
 using Fusion.Sockets;
+using Network.Data;
 using UniRx;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,9 +15,11 @@ namespace Network
     {
         [SerializeField] private NetworkRunner _runner;
 
-        private readonly ReactiveCommand _onConnected = new();
+        private NetworkInputData _networkInputData;
 
-        public IObservable<Unit> OnConnectedAsRx => _onConnected.AsObservable();
+        private readonly ReactiveCommand<PlayerRef> _onConnected = new();
+
+        public IObservable<PlayerRef> OnConnectedAsRx => _onConnected.AsObservable();
 
         public NetworkRunner NetworkRunner => _runner;
         public PlayerRef PlayerRef { get; private set; }
@@ -35,8 +38,8 @@ namespace Network
         {
             if (!_runner.IsServer) return;
             Debug.Log("OnPlayerJoined");
-            _onConnected.Execute();
             PlayerRef = player;
+            _onConnected.Execute(PlayerRef);
         }
 
         public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -45,6 +48,9 @@ namespace Network
 
         public void OnInput(NetworkRunner runner, NetworkInput input)
         {
+            if (_networkInputData.Direction == default) return;
+            input.Set(_networkInputData);
+            _networkInputData = default;
         }
 
         public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
@@ -59,7 +65,9 @@ namespace Network
         {
             if (runner.IsServer) return;
             Debug.Log("OnConnectedToServer");
-            _onConnected.Execute();
+
+            PlayerRef = runner.LocalPlayer;
+            _onConnected.Execute(runner.LocalPlayer);
         }
 
         public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
@@ -125,6 +133,11 @@ namespace Network
             if (_runner.IsServer) _runner.LoadScene(SceneManager.GetActiveScene().name);
 
             return result.Ok;
+        }
+
+        public void SetInputData(NetworkInputData networkInputData)
+        {
+            _networkInputData = networkInputData;
         }
     }
 }

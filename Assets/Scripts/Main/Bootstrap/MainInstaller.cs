@@ -1,4 +1,5 @@
 ﻿using GameStage.Bootstrap;
+using Input.Bootstrap;
 using Network;
 using Rules;
 using UI.Bootstrap;
@@ -15,6 +16,7 @@ namespace Main.Bootstrap
             Container.Install<NetworkInstaller>();
             Container.Install<UIInstaller>();
             Container.Install<RulesInstaller>();
+            Container.Install<InputInstaller>();
         }
     }
 }

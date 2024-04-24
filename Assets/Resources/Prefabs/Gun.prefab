@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd29055d9e54eb5931e4604cb064248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cc: {fileID: 2621124034250539210}
 --- !u!114 &6868188510139411173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,6 +181,7 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
+  - {fileID: 1829050212240913157}
   - {fileID: 2621124034250539210}
 --- !u!143 &6467036418547487535
 CharacterController:
