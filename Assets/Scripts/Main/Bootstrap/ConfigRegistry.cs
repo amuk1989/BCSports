@@ -1,4 +1,5 @@
-﻿using GameStage.Controllers;
+﻿using Camera.Configs;
+using GameStage.Controllers;
 using Gun;
 using Input.Configs;
 using UnityEngine;
@@ -13,12 +14,14 @@ namespace Main.Bootstrap
         [SerializeField] private GameStageConfig _gameStageConfig;
         [SerializeField] private GameConfig _gameConfig;
         [SerializeField] private InputConfig _inputConfig;
+        [SerializeField] private CameraConfig _cameraConfig;
         
         public override void InstallBindings()
         {
             Container.InstallRegistry(_gameStageConfig.Data);
             Container.InstallRegistry(_gameConfig.Data);
             Container.InstallRegistry(_inputConfig.Data);
+            Container.InstallRegistry(_cameraConfig.Data);
         }
     }
 }

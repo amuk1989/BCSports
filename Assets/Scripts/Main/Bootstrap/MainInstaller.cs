@@ -1,9 +1,9 @@
-﻿using GameStage.Bootstrap;
+﻿using Camera.Bootstrap;
+using GameStage.Bootstrap;
 using Input.Bootstrap;
 using Network;
 using Rules;
 using UI.Bootstrap;
-using Utils;
 using Zenject;
 
 namespace Main.Bootstrap
@@ -17,6 +17,7 @@ namespace Main.Bootstrap
             Container.Install<UIInstaller>();
             Container.Install<RulesInstaller>();
             Container.Install<InputInstaller>();
+            Container.Install<CameraInstaller>();
         }
     }
 }
