@@ -18,9 +18,9 @@ namespace Network
         {
              var result = _basicSpawner
                 .NetworkRunner
-                .SpawnAsync(prefab.gameObject, position, Quaternion.identity, playerRef);
+                .Spawn(prefab.gameObject, position, Quaternion.identity, playerRef);
 
-             return result.Object.gameObject.GetComponent<TComponent>();
+             return result.GetComponent<TComponent>();
         }
 
         public void Destroy(NetworkObject networkObject)
