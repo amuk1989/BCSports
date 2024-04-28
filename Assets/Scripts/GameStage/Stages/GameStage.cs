@@ -31,7 +31,7 @@ namespace GameStage.Stages
 
             _inputService
                 .CursorPositionAsObservable()
-                .Where(x => _inputService.TapStatus == TapStatus.OnDrag)
+                .Where(x => _inputService.TapStatus != TapStatus.OnDrag)
                 .Subscribe(position =>
                 {
                     _networkService.SetNetworkInput(new NetworkInputData(position));
@@ -40,11 +40,11 @@ namespace GameStage.Stages
             
             if (!_networkService.IsHostGame) return;
 
-            _networkService.CreateNewNetworkObject(_gameConfig.GunView, _networkService.LocalPlayer);
+            _networkService.CreateNewNetworkObject(_gameConfig.NetworkComponent, _networkService.LocalPlayer);
 
             _networkService
                 .OnConnected
-                .Subscribe(player => _networkService.CreateNewNetworkObject(_gameConfig.GunView, player))
+                .Subscribe(player => _networkService.CreateNewNetworkObject(_gameConfig.NetworkComponent, player))
                 .AddTo(_compositeDisposable);
         }
 

@@ -3,14 +3,14 @@ using Base;
 using Cysharp.Threading.Tasks;
 using Fusion;
 using Network.Data;
-using UniRx;
-using UnityEngine;
 
 namespace Network
 {
     public interface INetworkService : IService
     {
         IObservable<PlayerRef> OnConnected { get; }
+
+        IObservable<PlayerRef> OnDisconnected { get; }
 
         PlayerRef LocalPlayer { get; }
 
@@ -21,7 +21,7 @@ namespace Network
         UniTask ConnectToLobby();
 
         void CreateNewNetworkObject<TComponent>(TComponent prefab, PlayerRef playerRef)
-            where TComponent : MonoBehaviour;
+            where TComponent : NetworkBehaviour;
 
         void SetNetworkInput(NetworkInputData networkInputData);
     }

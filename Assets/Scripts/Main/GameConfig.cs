@@ -2,6 +2,7 @@
 using Base.Data;
 using Base.Interfaces;
 using UnityEngine;
+using UnityEngine.Serialization;
 using View;
 
 namespace Gun
@@ -14,8 +15,8 @@ namespace Gun
     [Serializable]
     public struct GameConfigData : IConfigData
     {
-        [SerializeField] private GunView _gunView;
+        [SerializeField] private NetworkComponent _networkComponent;
 
-        public GunView GunView => _gunView;
+        public NetworkComponent NetworkComponent => _networkComponent;
     }
 }

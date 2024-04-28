@@ -13,11 +13,19 @@ namespace Network
             _basicSpawner = basicSpawner;
         }
 
-        public void Create<TComponent>(TComponent prefab, Transform parent, Vector3 position, PlayerRef playerRef)
-            where TComponent : MonoBehaviour
+        public TComponent Create<TComponent>(TComponent prefab, Transform parent, Vector3 position, PlayerRef playerRef)
+            where TComponent : NetworkBehaviour
         {
-            _basicSpawner.NetworkRunner.SpawnAsync(prefab.gameObject, position, Quaternion.identity,
-                playerRef);
+             var result = _basicSpawner
+                .NetworkRunner
+                .SpawnAsync(prefab.gameObject, position, Quaternion.identity, playerRef);
+
+             return result.Object.gameObject.GetComponent<TComponent>();
+        }
+
+        public void Destroy(NetworkObject networkObject)
+        {
+            _basicSpawner.NetworkRunner.Despawn(networkObject);
         }
     }
 }

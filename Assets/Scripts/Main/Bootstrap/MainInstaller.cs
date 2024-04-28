@@ -18,6 +18,8 @@ namespace Main.Bootstrap
             Container.Install<RulesInstaller>();
             Container.Install<InputInstaller>();
             Container.Install<CameraInstaller>();
+
+            SignalBusInstaller.Install(Container);
         }
     }
 }

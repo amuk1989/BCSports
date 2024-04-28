@@ -27,15 +27,16 @@ namespace Rules
 
         private async UniTask OnSceneCreated(CancellationToken cancellationToken)
         {
-            GunView gunView = null;
+            NetworkComponent networkComponent = null;
             
             await UniTask.WaitUntil(() =>
             {
-                gunView = Object.FindObjectOfType<GunView>();
-                return gunView != null;
+                networkComponent = Object.FindObjectOfType<NetworkComponent>();
+                return networkComponent != null;
             }, cancellationToken: cancellationToken);
             
-            _diContainer.Inject(gunView);
+            _diContainer.Inject(networkComponent);
+            networkComponent.enabled = true;
         }
     }
 }

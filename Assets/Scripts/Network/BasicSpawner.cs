@@ -18,8 +18,10 @@ namespace Network
         private NetworkInputData _networkInputData;
 
         private readonly ReactiveCommand<PlayerRef> _onConnected = new();
+        private readonly ReactiveCommand<PlayerRef> _onDisconnected = new();
 
         public IObservable<PlayerRef> OnConnectedAsRx => _onConnected.AsObservable();
+        public IObservable<PlayerRef> OnDisconnectedAsRx => _onDisconnected.AsObservable();
 
         public NetworkRunner NetworkRunner => _runner;
         public PlayerRef PlayerRef { get; private set; }
@@ -65,13 +67,16 @@ namespace Network
         {
             if (runner.IsServer) return;
             Debug.Log("OnConnectedToServer");
-
-            PlayerRef = runner.LocalPlayer;
+            
             _onConnected.Execute(runner.LocalPlayer);
         }
 
         public void OnDisconnectedFromServer(NetworkRunner runner, NetDisconnectReason reason)
         {
+            if (runner.IsServer) return;
+            Debug.Log("OnDisconnectedFromServer");
+
+            _onDisconnected.Execute(runner.LocalPlayer);
         }
 
         public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request,
