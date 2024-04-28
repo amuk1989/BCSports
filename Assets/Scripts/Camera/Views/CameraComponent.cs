@@ -22,21 +22,10 @@ namespace Camera.Views
             _cameraModel.UpdatePosition(transform.position);
         }
 
-        private void Start()
+        private void Update()
         {
-            _cameraModel
-                .RotationAsObservable()
-                .Subscribe(value =>
-                {
-                    transform.rotation = value;
-                    _cameraModel.UpdateSightDirection(transform.forward);
-                })
-                .AddTo(this);
-
-            _cameraModel
-                .PositionAsObservable()
-                .Subscribe(value => transform.position = value)
-                .AddTo(this);
+            transform.forward = _cameraModel.SightDirection;
+            transform.SetPositionAndRotation(_cameraModel.Position, _cameraModel.Rotation);
         }
 
         public void Dispose()

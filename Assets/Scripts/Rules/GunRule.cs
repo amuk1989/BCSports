@@ -11,8 +11,8 @@ namespace Rules
 {
     public class GunRule : BaseGamesRule
     {
-        private DiContainer _diContainer;
-        
+        private readonly DiContainer _diContainer;
+
         public GunRule(IGameStageService gameStageService, DiContainer diContainer) : base(gameStageService)
         {
             _diContainer = diContainer;
@@ -21,20 +21,20 @@ namespace Rules
         protected override void OnStageChanged(GameStageId gameStageId)
         {
             if (gameStageId != GameStageId.Game) return;
-            
+
             OnSceneCreated(Application.exitCancellationToken).Forget();
         }
 
         private async UniTask OnSceneCreated(CancellationToken cancellationToken)
         {
             NetworkComponent networkComponent = null;
-            
+
             await UniTask.WaitUntil(() =>
             {
                 networkComponent = Object.FindObjectOfType<NetworkComponent>();
                 return networkComponent != null;
             }, cancellationToken: cancellationToken);
-            
+
             _diContainer.Inject(networkComponent);
             networkComponent.enabled = true;
         }

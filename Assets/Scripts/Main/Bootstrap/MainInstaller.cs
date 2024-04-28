@@ -1,5 +1,6 @@
 ﻿using Camera.Bootstrap;
 using GameStage.Bootstrap;
+using Gun;
 using Input.Bootstrap;
 using Network;
 using Rules;
@@ -18,6 +19,7 @@ namespace Main.Bootstrap
             Container.Install<RulesInstaller>();
             Container.Install<InputInstaller>();
             Container.Install<CameraInstaller>();
+            Container.Install<GunInstaller>();
 
             SignalBusInstaller.Install(Container);
         }

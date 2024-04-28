@@ -40,12 +40,12 @@ namespace GameStage.Stages
             
             if (!_networkService.IsHostGame) return;
 
-            _networkService.CreateNewNetworkObject(_gameConfig.NetworkComponent, _networkService.LocalPlayer);
-
-            _networkService
-                .OnConnected
-                .Subscribe(player => _networkService.CreateNewNetworkObject(_gameConfig.NetworkComponent, player))
-                .AddTo(_compositeDisposable);
+            // _networkService.CreateNewNetworkObject(_gameConfig.NetworkComponent, _networkService.LocalPlayer);
+            //
+            // _networkService
+            //     .OnConnected
+            //     .Subscribe(player => _networkService.CreateNewNetworkObject(_gameConfig.NetworkComponent, player))
+            //     .AddTo(_compositeDisposable);
         }
 
         public void Complete()

@@ -20,7 +20,7 @@ namespace Network
 
         UniTask ConnectToLobby();
 
-        void CreateNewNetworkObject<TComponent>(TComponent prefab, PlayerRef playerRef)
+        TComponent CreateNewNetworkObject<TComponent>(TComponent prefab, PlayerRef playerRef)
             where TComponent : NetworkBehaviour;
 
         void SetNetworkInput(NetworkInputData networkInputData);
